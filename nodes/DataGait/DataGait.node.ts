@@ -246,7 +246,6 @@ export class DataGait implements INodeType {
 				],
 			},
 		],
-		usableAsTool: true,
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
