@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Left temple arm -->
+  <path d="M155 175 L68 100 C62 95 62 86 68 80 C74 74 83 74 89 80 L170 155" stroke="#000" stroke-width="30" stroke-linecap="round" fill="none"/>
+  <!-- Right temple arm -->
+  <path d="M357 175 L444 100 C450 95 450 86 444 80 C438 74 429 74 423 80 L342 155" stroke="#000" stroke-width="30" stroke-linecap="round" fill="none"/>
+  <!-- Left lens: rectangle with angled inner-bottom corner -->
+  <path d="M60 185 L60 370 C60 382 70 392 82 392 L220 392 L260 340 L260 185 C260 173 250 163 238 163 L82 163 C70 163 60 173 60 185 Z" fill="#000"/>
+  <!-- Right lens: rectangle with angled inner-bottom corner -->
+  <path d="M452 185 L452 370 C452 382 442 392 430 392 L292 392 L252 340 L252 185 C252 173 262 163 274 163 L430 163 C442 163 452 173 452 185 Z" fill="#000"/>
+</svg>

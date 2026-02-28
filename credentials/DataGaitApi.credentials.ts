@@ -8,8 +8,8 @@ import {
 export class DataGaitApi implements ICredentialType {
 	name = 'dataGaitApi';
 	displayName = 'DataGait API';
-	// eslint-disable-next-line n8n-nodes-base/cred-class-field-documentation-url-miscased
 	documentationUrl = 'https://www.npmjs.com/package/n8n-nodes-datagait';
+	icon = 'file:nodes/DataGait/datagait.svg' as const;
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Token',

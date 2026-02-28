@@ -8,10 +8,12 @@ import {
 } from 'n8n-workflow';
 
 export class DataGait implements INodeType {
+	usableAsTool = true;
+
 	description: INodeTypeDescription = {
 		displayName: 'DataGait',
 		name: 'dataGait',
-		icon: 'file:datagait.png',
+		icon: 'file:datagait.svg',
 		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"]}}',
@@ -244,6 +246,7 @@ export class DataGait implements INodeType {
 				],
 			},
 		],
+		usableAsTool: true,
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
