@@ -2,7 +2,7 @@
 
 n8n community node for **[DataGait](https://datagait.com)** — scrape, extract, and crawl data from JavaScript-heavy websites with the world's fastest headless DOM engine.
 
-[npm](https://www.npmjs.com/package/n8n-nodes-datagait) | [Documentation](https://datagait.com/help) | [Report Issue](https://github.com/mighty98/pseudodom/issues)
+[npm](https://www.npmjs.com/package/n8n-nodes-datagait) | [Documentation](https://datagait.com/help) | [Report Issue](https://github.com/datagaitos/n8n-nodes-datagait/issues)
 
 ## Features
 
@@ -163,7 +163,7 @@ See the `examples/` directory for importable n8n workflow JSON files:
 
 - [DataGait Website](https://datagait.com)
 - [API Documentation](https://datagait.com/help)
-- [Report an Issue](https://github.com/mighty98/pseudodom/issues)
+- [Report an Issue](https://github.com/datagaitos/n8n-nodes-datagait/issues)
 - [npm Package](https://www.npmjs.com/package/n8n-nodes-datagait)
 
 ## License
