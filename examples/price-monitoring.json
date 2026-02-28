@@ -1,0 +1,117 @@
+{
+  "name": "Price Monitoring Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "schedule-hourly",
+      "id": "schedule-1"
+    },
+    {
+      "parameters": {
+        "operation": "extract",
+        "url": "https://example.com/products/widget-123",
+        "outputFields": ["html", "text", "structured_data"],
+        "timeout": 30,
+        "additionalOptions": {}
+      },
+      "name": "DataGait - Extract Page",
+      "type": "n8n-nodes-datagait.dataGait",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "dataGaitApi": {
+          "id": "1",
+          "name": "DataGait API"
+        }
+      },
+      "id": "datagait-1"
+    },
+    {
+      "parameters": {
+        "operation": "execute",
+        "executeJs": "const priceElement = document.querySelector('.price');\nconst price = parseFloat(priceElement.textContent.replace('$', ''));\nreturn { price, currency: 'USD', timestamp: Date.now() };"
+      },
+      "name": "Extract Price",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "id": "code-1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{$json.price}}",
+              "operation": "smaller",
+              "value2": 99.99
+            }
+          ]
+        }
+      },
+      "name": "Price Alert Threshold",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "id": "if-1"
+    },
+    {
+      "parameters": {
+        "channel": "#price-alerts",
+        "text": "Price Alert: Widget-123 is now ${{$json.price}} (below $99.99 threshold)!",
+        "attachments": []
+      },
+      "name": "Send Slack Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [1050, 200],
+      "credentials": {
+        "slackApi": {
+          "id": "2",
+          "name": "Slack"
+        }
+      },
+      "id": "slack-1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetId": "price-history",
+        "range": "A:D",
+        "options": {}
+      },
+      "name": "Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [1050, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "3",
+          "name": "Google Sheets"
+        }
+      },
+      "id": "sheets-1"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [[{ "node": "DataGait - Extract Page", "type": "main", "index": 0 }]]
+    },
+    "DataGait - Extract Page": {
+      "main": [[{ "node": "Extract Price", "type": "main", "index": 0 }]]
+    },
+    "Extract Price": {
+      "main": [[{ "node": "Price Alert Threshold", "type": "main", "index": 0 }]]
+    },
+    "Price Alert Threshold": {
+      "main": [
+        [{ "node": "Send Slack Alert", "type": "main", "index": 0 }],
+        [{ "node": "Log to Google Sheets", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}

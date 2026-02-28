@@ -1,0 +1,56 @@
+{
+    "node": "n8n-nodes-datagait.dataGait",
+    "nodeVersion": "1.0",
+    "codexVersion": "1.0",
+    "categories": ["Miscellaneous", "Development", "Developer Tools"],
+    "resources": {
+        "credentialDocumentation": [
+            {
+                "url": "https://datagait.com/help"
+            }
+        ],
+        "primaryDocumentation": [
+            {
+                "url": "https://www.npmjs.com/package/n8n-nodes-datagait"
+            }
+        ]
+    },
+    "alias": [
+        "datagait",
+        "data gait",
+        "scrape",
+        "scraper",
+        "scraping",
+        "web scrape",
+        "web scraper",
+        "web scraping",
+        "crawl",
+        "crawler",
+        "crawling",
+        "web crawl",
+        "web crawler",
+        "extract",
+        "extraction",
+        "data extraction",
+        "content extraction",
+        "structured data",
+        "parse",
+        "parser",
+        "html",
+        "website",
+        "webpage",
+        "url",
+        "fetch",
+        "read website",
+        "read page",
+        "text extraction",
+        "headless browser",
+        "javascript rendering",
+        "json-ld",
+        "open graph",
+        "meta tags",
+        "seo",
+        "web to text",
+        "article extraction"
+    ]
+}

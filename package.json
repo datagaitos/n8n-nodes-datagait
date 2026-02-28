@@ -1,0 +1,76 @@
+{
+  "name": "n8n-nodes-datagait",
+  "version": "1.1.3",
+  "description": "Scrape, extract, and crawl data from JavaScript-heavy websites using DataGait — the world's fastest headless DOM engine. Full JS rendering, structured data extraction, and multi-page crawling.",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "datagait",
+    "web scraping",
+    "web scraper",
+    "data extraction",
+    "web crawling",
+    "crawler",
+    "headless browser",
+    "headless dom",
+    "javascript rendering",
+    "structured data",
+    "json-ld",
+    "open graph",
+    "meta tags",
+    "seo",
+    "content extraction",
+    "automation",
+    "ai data pipeline",
+    "llm data",
+    "firecrawl alternative",
+    "apify alternative",
+    "scraping api"
+  ],
+  "license": "MIT",
+  "homepage": "https://datagait.com",
+  "bugs": {
+    "url": "https://github.com/datagaitos/n8n-nodes-datagait/issues"
+  },
+  "author": {
+    "name": "Centicore Technologies",
+    "email": "hello@datagait.com",
+    "url": "https://datagait.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/datagaitos/n8n-nodes-datagait.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && gulp build:icons",
+    "dev": "tsc --watch",
+    "format": "prettier nodes credentials --write",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/DataGaitApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/DataGait/DataGait.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-n8n-nodes-base": "^1.16.6",
+    "gulp": "^4.0.2",
+    "n8n-workflow": "^1.0.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}

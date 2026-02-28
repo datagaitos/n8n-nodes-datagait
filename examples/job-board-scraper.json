@@ -1,0 +1,100 @@
+{
+  "name": "Job Board Scraper",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "job-scraper",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "job-scraper",
+      "id": "webhook-1"
+    },
+    {
+      "parameters": {
+        "operation": "extract",
+        "url": "={{$json.url}}",
+        "outputFields": ["html", "text", "links"],
+        "timeout": 30,
+        "additionalOptions": {}
+      },
+      "name": "DataGait - Extract Job Board",
+      "type": "n8n-nodes-datagait.dataGait",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "credentials": {
+        "dataGaitApi": {
+          "id": "1",
+          "name": "DataGait API"
+        }
+      },
+      "id": "datagait-1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const html = $input.item.json.html;\nconst parser = new DOMParser();\nconst doc = parser.parseFromString(html, 'text/html');\n\nconst jobs = [];\nconst jobElements = doc.querySelectorAll('.job-listing');\n\njobElements.forEach(el => {\n  jobs.push({\n    title: el.querySelector('.job-title')?.textContent.trim(),\n    company: el.querySelector('.company')?.textContent.trim(),\n    location: el.querySelector('.location')?.textContent.trim(),\n    salary: el.querySelector('.salary')?.textContent.trim(),\n    url: el.querySelector('a')?.href,\n    postedDate: el.querySelector('.posted-date')?.textContent.trim()\n  });\n});\n\nreturn jobs.map(job => ({ json: job }));"
+      },
+      "name": "Extract Job Listings",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "id": "code-1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.title}}",
+              "operation": "contains",
+              "value2": "Senior"
+            }
+          ]
+        }
+      },
+      "name": "Filter Senior Roles",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 300],
+      "id": "if-1"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": "job-tracker",
+        "table": "Opportunities",
+        "options": {}
+      },
+      "name": "Add to Airtable",
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "credentials": {
+        "airtableApi": {
+          "id": "4",
+          "name": "Airtable"
+        }
+      },
+      "id": "airtable-1"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "DataGait - Extract Job Board", "type": "main", "index": 0 }]]
+    },
+    "DataGait - Extract Job Board": {
+      "main": [[{ "node": "Extract Job Listings", "type": "main", "index": 0 }]]
+    },
+    "Extract Job Listings": {
+      "main": [[{ "node": "Filter Senior Roles", "type": "main", "index": 0 }]]
+    },
+    "Filter Senior Roles": {
+      "main": [[{ "node": "Add to Airtable", "type": "main", "index": 0 }]]
+    }
+  }
+}
