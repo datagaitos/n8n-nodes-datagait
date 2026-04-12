@@ -28,11 +28,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Typecheck
+        run: npm run lint
+
       - name: Build
         run: npm run build
-
-      - name: Lint (n8n-node)
-        run: npm test
 
       - name: Publish to npm with provenance
         run: npm publish --provenance --access public

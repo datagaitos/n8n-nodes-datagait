@@ -47,7 +47,8 @@
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
     "lint": "tsc --noEmit",
-    "test": "n8n-node lint",
+    "lint:n8n": "n8n-node lint",
+    "test": "npm run lint",
     "prepublishOnly": "npm run build"
   },
   "publishConfig": {
@@ -67,7 +68,7 @@
     ]
   },
   "devDependencies": {
-    "@n8n/node-cli": "^0.21.0",
+    "@n8n/node-cli": "^0.23.1",
     "gulp": "^4.0.2",
     "n8n-workflow": "^1.0.0",
     "prettier": "^3.2.5",
