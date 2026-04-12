@@ -1,9 +1,12 @@
+import type { JsonObject } from 'n8n-workflow';
 import {
 	IDataObject,
 	IExecuteFunctions,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
+	NodeApiError,
+	NodeConnectionTypes,
 	NodeOperationError,
 } from 'n8n-workflow';
 
@@ -22,8 +25,8 @@ export class DataGait implements INodeType {
 			name: 'DataGait',
 		},
 		documentationUrl: 'https://www.npmjs.com/package/n8n-nodes-datagait',
-		inputs: ['main'],
-		outputs: ['main'],
+		inputs: [NodeConnectionTypes.Main],
+		outputs: [NodeConnectionTypes.Main],
 		credentials: [
 			{
 				name: 'dataGaitApi',
@@ -246,6 +249,7 @@ export class DataGait implements INodeType {
 				],
 			},
 		],
+		usableAsTool: true,
 	};
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
@@ -510,14 +514,12 @@ export class DataGait implements INodeType {
 					);
 				}
 
-				throw new NodeOperationError(
-					this.getNode(),
-					`DataGait API returned an unexpected response: ${message}`,
-					{
-						itemIndex: i,
-						description: 'Check that the URL is valid and accessible. If this persists, verify your API key at https://datagait.com/dashboard/settings.',
-					},
-				);
+				// Preserve HTTP status, response body, and other context from n8n HTTP helpers (axios-style errors).
+				const errorPayload: JsonObject =
+					error !== null && typeof error === 'object'
+						? (error as JsonObject)
+						: { message: String(error) };
+				throw new NodeApiError(this.getNode(), errorPayload, { itemIndex: i });
 			}
 		}
 
@@ -569,7 +571,8 @@ function parseSSEData(raw: string): unknown[] {
 			try {
 				events.push(JSON.parse(dataStr));
 			} catch {
-				// skip unparseable events
+				// Intentionally ignore: SSE streams may deliver partial `data:` payloads, comments, or
+				// heartbeats that are not JSON. Only well-formed JSON events (with `type`, etc.) are used.
 			}
 		}
 	}

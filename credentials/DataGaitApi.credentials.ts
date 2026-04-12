@@ -9,7 +9,7 @@ export class DataGaitApi implements ICredentialType {
 	name = 'dataGaitApi';
 	displayName = 'DataGait API';
 	documentationUrl = 'https://www.npmjs.com/package/n8n-nodes-datagait';
-	icon = 'file:nodes/DataGait/datagait.svg' as const;
+	icon = 'file:../nodes/DataGait/datagait.svg' as const;
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Token',
